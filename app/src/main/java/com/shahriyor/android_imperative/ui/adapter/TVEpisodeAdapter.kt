@@ -53,9 +53,7 @@ class TVEpisodeAdapter: ListAdapter<Episode, TVEpisodeAdapter.EpisodeViewHolder>
         holder.bind(item)
     }
 
-    fun setImage(image: String) {
 
-    }
 
 
 }

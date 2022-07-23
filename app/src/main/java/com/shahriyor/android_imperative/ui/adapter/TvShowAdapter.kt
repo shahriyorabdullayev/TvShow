@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide
 import com.shahriyor.android_imperative.R
 import com.shahriyor.android_imperative.databinding.ItemTvShowBinding
 import com.shahriyor.android_imperative.model.TVShow
+import com.shahriyor.android_imperative.utils.RandomColor
 
 class TVShowAdapter : ListAdapter<TVShow, TVShowAdapter.TVShowViewHolder>(Comparator()) {
 
@@ -34,7 +35,7 @@ class TVShowAdapter : ListAdapter<TVShow, TVShowAdapter.TVShowViewHolder>(Compar
                 tvName.text = item?.name
                 tvType.text = item?.network
                 Glide.with(ivMovie).load(item?.image_thumbnail_path)
-                    .placeholder(R.drawable.ic_launcher_background).into(ivMovie)
+                    .placeholder(RandomColor.randomColor()).into(ivMovie)
 
                 ViewCompat.setTransitionName(ivMovie, item?.name)
                 root.setOnClickListener {

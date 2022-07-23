@@ -1,17 +1,17 @@
 package com.shahriyor.android_imperative.ui.fragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shahriyor.android_imperative.R
+import com.shahriyor.android_imperative.data.remote.Server
 import com.shahriyor.android_imperative.databinding.FragmentHomeBinding
 import com.shahriyor.android_imperative.model.TVShow
 import com.shahriyor.android_imperative.ui.adapter.TVShowAdapter
@@ -46,6 +46,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun initViews() {
+
+
 
         val lm = GridLayoutManager(requireContext(), 2)
         binding.rvHome.layoutManager = lm

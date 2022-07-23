@@ -3,9 +3,8 @@ package com.shahriyor.android_imperative.di
 import android.app.Application
 import com.shahriyor.android_imperative.data.local.AppDatabase
 import com.shahriyor.android_imperative.data.local.dao.TVShowDao
+import com.shahriyor.android_imperative.data.remote.Server
 import com.shahriyor.android_imperative.data.remote.Server.IS_TESTER
-import com.shahriyor.android_imperative.data.remote.Server.SERVER_DEVELOPMENT
-import com.shahriyor.android_imperative.data.remote.Server.SERVER_PRODUCTION
 import com.shahriyor.android_imperative.data.remote.service.TvShowService
 import dagger.Module
 import dagger.Provides
@@ -25,8 +24,8 @@ class AppModule {
 
     @Provides
     fun server(): String {
-        if (IS_TESTER) return SERVER_DEVELOPMENT
-        return SERVER_PRODUCTION
+        if (IS_TESTER) return Server.getServerDevelopment()
+        return Server.getServerProduction()
     }
 
     @Provides

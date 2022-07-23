@@ -56,7 +56,7 @@ class DetailsActivity : BaseActivity() {
         viewModel.tvShowDetails.observe(this) {
             Logger.d(TAG, it.toString())
             binding.tvDetails.text = it.tvShow.description
-            //refreshAdapter(it.tvShow.pictures)
+//            refreshAdapter(it.tvShow.pictures)
         }
 
         viewModel.errorMessage.observe(this) {

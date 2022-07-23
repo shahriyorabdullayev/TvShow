@@ -38,79 +38,21 @@ class MainActivity : BaseActivity() {
 
         binding.bottomNavigation.setupWithNavController(findNavController(R.id.main_container))
 
-
-
-//        initViews()
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.detailsFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
     }
-//
-//    private fun initViews() {
-//        initObservers()
-//        val lm = GridLayoutManager(this, 2)
-//        binding.rvHome.layoutManager = lm
-//        refreshAdapter(ArrayList())
-//
-//        binding.rvHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//                if (lm.findLastCompletelyVisibleItemPosition() == (adapter.itemCount - 1)) {
-//                    val nextPage = viewModel.tvShowPopular.value!!.page + 1
-//                    val totalPage = viewModel.tvShowPopular.value!!.pages
-//                    if (nextPage <= totalPage) {
-//                        viewModel.apiTVShowPopular(nextPage)
-//                    }
-//                }
-//            }
-//        })
-//
-//        binding.bFab.setOnClickListener {
-//            binding.rvHome.smoothScrollToPosition(0)
-//        }
-//        viewModel.apiTVShowPopular(1)
-//    }
-//
-//    private fun initObservers() {
-//        /**
-//         * Retrofit Related
-//         */
-//        viewModel.tvShowsFromApi.observe(this) {
-//            Logger.d(TAG, it!!.size.toString())
-//            adapter.setNewTVShows(it)
-//        }
-//
-//        viewModel.errorMessage.observe(this) {
-//            Logger.d(TAG, it.toString())
-//        }
-//
-//        viewModel.isLoading.observe(this) {
-//            Logger.d(TAG, it!!.toString())
-//            if (it) {
-//                binding.pbLoading.visibility = View.VISIBLE
-//            } else {
-//                binding.pbLoading.visibility = View.GONE
-//            }
-//        }
-//    }
-//
-//    private fun refreshAdapter(items: ArrayList<TVShow>) {
-//        adapter = TVShowAdapter(this, items)
-//        binding.rvHome.adapter = adapter
-//    }
-//
-//    fun callDetailsActivity(tvShow: TVShow, ivMovie: ImageView) {
-//        val intent = Intent(this, DetailsActivity::class.java).apply {
-//            putExtra("show_id", tvShow.id)
-//            putExtra("show_img", tvShow.image_thumbnail_path)
-//            putExtra("show_name", tvShow.name)
-//            putExtra("show_network", tvShow.network)
-//            putExtra("iv_movie", ViewCompat.getTransitionName(ivMovie))
-//        }
-//
-//        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this,
-//            ivMovie,
-//            ViewCompat.getTransitionName(ivMovie)!!)
-//
-//        startActivity(intent, options.toBundle())
-//    }
+
+    private fun hideBottomNav() {
+        binding.bottomNavigation.visibility = View.GONE
+    }
+
+    private fun showBottomNav() {
+        binding.bottomNavigation.visibility = View.VISIBLE
+    }
 
 
 }
