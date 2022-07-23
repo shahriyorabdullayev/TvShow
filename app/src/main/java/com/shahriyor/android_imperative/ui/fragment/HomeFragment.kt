@@ -2,8 +2,13 @@ package com.shahriyor.android_imperative.ui.fragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.shahriyor.android_imperative.R
@@ -26,6 +31,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val list = ArrayList<TVShow>()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.apiTVShowPopular(1)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvHome.adapter = adapter
@@ -39,6 +49,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         val lm = GridLayoutManager(requireContext(), 2)
         binding.rvHome.layoutManager = lm
+
+        adapter.onItemClick = { tvShow, imageView ->
+            viewModel.insertTVShowsDb(tvShow)
+            callDetailsFragment(tvShow, imageView)
+        }
 
 
         binding.rvHome.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -57,15 +72,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.bFab.setOnClickListener {
             binding.rvHome.smoothScrollToPosition(0)
         }
-        viewModel.apiTVShowPopular(1)
+
 
     }
 
     private fun observeViewModel() {
         viewModel.tvShowsFromApi.observe(viewLifecycleOwner) {
             Logger.d(TAG, it!!.size.toString())
-            adapter.submitList(it.toList())
-            Logger.d(TAG, list.size.toString())
+            list.addAll(it)
+            adapter.submitList(list.toList())
         }
 
         viewModel.errorMessage.observe(viewLifecycleOwner) {
@@ -80,6 +95,22 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                 binding.pbLoading.visibility = View.GONE
             }
         }
+    }
+
+    private fun callDetailsFragment(tvShow: TVShow, ivMovie: ImageView) {
+        val bundle = Bundle().apply {
+            putLong("show_id", tvShow.id!!)
+            putString("show_img", tvShow.image_thumbnail_path)
+            putString("show_name", tvShow.name)
+            putString("show_network", tvShow.network)
+            //putString("iv_movie", ViewCompat.getTransitionName(ivMovie))
+        }
+        val extras = FragmentNavigatorExtras(ivMovie to "iv_detail")
+
+        findNavController().navigate(R.id.action_homeFragment_to_detailsFragment,
+            bundle,
+            null,
+            extras)
     }
 
 

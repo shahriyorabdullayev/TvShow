@@ -2,6 +2,8 @@ package com.shahriyor.android_imperative.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +13,8 @@ import com.shahriyor.android_imperative.databinding.ItemTvShowBinding
 import com.shahriyor.android_imperative.model.TVShow
 
 class TVShowAdapter : ListAdapter<TVShow, TVShowAdapter.TVShowViewHolder>(Comparator()) {
+
+    var onItemClick: ((TVShow, ImageView) -> Unit)? = null
 
     class Comparator : DiffUtil.ItemCallback<TVShow>() {
         override fun areItemsTheSame(oldItem: TVShow, newItem: TVShow): Boolean {
@@ -31,6 +35,11 @@ class TVShowAdapter : ListAdapter<TVShow, TVShowAdapter.TVShowViewHolder>(Compar
                 tvType.text = item?.network
                 Glide.with(ivMovie).load(item?.image_thumbnail_path)
                     .placeholder(R.drawable.ic_launcher_background).into(ivMovie)
+
+                ViewCompat.setTransitionName(ivMovie, item?.name)
+                root.setOnClickListener {
+                    onItemClick?.invoke(item!!, ivMovie)
+                }
             }
         }
 
